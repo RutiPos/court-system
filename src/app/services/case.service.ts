@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import { CaseStatus } from '../constants/case_status';
 import { Case } from '../models/case.model';
 import { AuthService } from './auth.service';
+import { UserCaseService } from './user-case.service';
 
 type CaseField = keyof Case; // 'id', 'number', 'name', 'status', 'created', 'isJudge'
 
@@ -17,11 +18,14 @@ export class CaseService {
     { id: '1004', number: 'D101', name: 'Anna White', status: CaseStatus.Closed, created: new Date('2024-03-10'), isJudge: false, caseKind: 'Type4', osek: 'Osek4', eligibilityPeriod: '2024-09-10', nextDiscussionDate: new Date('2024-08-25'), appealFiler: 'Filer4', chairperson: 'Chair4', publicCommissioner: 'Commissioner4', assignedTo: ['user2'] },
   ];
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,
+              private userCaseService: UserCaseService
+  ) {}
 
   /**
    * חיפוש תיקים לפי קריטריונים - כולל תפקיד המשתמש (דיין או לא)
    */
+  // In CaseService
   searchCases(
     searchQuery: string = '',
     status: CaseStatus | 'all' = 'all',
@@ -31,49 +35,50 @@ export class CaseService {
     sortCriteria: CaseField = 'number',
     sortOrder: 'asc' | 'desc' = 'asc'
   ): Observable<Case[]> {
-    let filteredCases = [...this.cases];
+    let filteredCases: Case[] = [];
 
-    // חיפוש לפי שם או מספר תיק
+    // If user is judge, first check access and get their assigned cases
+    if (isJudge) {
+      const currentUserId = this.authService.getCurrentUserId();
+      if (!currentUserId) {
+        return of([]); // if the user is not logged in, return an empty array
+      }
+
+      // Call UserCaseService to get cases assigned to this judge
+      const userCases = this.userCaseService.getUserCasesByRole(currentUserId, 'judge');
+      filteredCases = [...userCases]; // Set the cases to the filtered list based on the role
+
+      console.log('User cases for judge:', filteredCases);
+    } else {
+      // For non-judges, use the hardcoded cases list (or filter based on user role)
+      filteredCases = [...this.cases];
+    }
+
+    // Filter, sort, and return as before
     if (searchQuery) {
       filteredCases = filteredCases.filter(
         (c) => c.number.includes(searchQuery) || c.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
-    // סינון לפי סטטוס תיק
-    if (status !== 'all'  && !isJudge) {
+    if (status !== 'all') {
       filteredCases = filteredCases.filter((c) => c.status === status);
     }
 
-    // סינון לפי תפקיד דיין
-    if (isJudge) {
-      const currentUserId = this.authService.getCurrentUserId();
-      if (!currentUserId) {
-        return of([]); // if the user is not logged in, return an empty array
-      } 
-
-      filteredCases = filteredCases.filter((caseItem) =>
-        caseItem.assignedTo?.includes(currentUserId) // filter by the current user's assigned cases
-      );
-      console.log('filteredCases:', filteredCases);
-    }
-
-    // סינון לפי תאריך יצירת תיק
     if (startDate) {
       const startDateObj = new Date(startDate);
       filteredCases = filteredCases.filter((c) => new Date(c.created) >= startDateObj);
     }
 
-    // סינון לפי סטטוס מותאם אישית
     if (customStatus) {
       filteredCases = filteredCases.filter((c) => c.status === customStatus);
     }
 
-    // מיון התיקים לפי קריטריונים שנבחרו
     filteredCases = this.sortCases(filteredCases, sortCriteria, sortOrder);
 
     return of(filteredCases);
   }
+
 
   private sortCases(cases: Case[], sortCriteria: CaseField, sortOrder: 'asc' | 'desc'): Case[] {
     return cases.sort((a, b) => {
