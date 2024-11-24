@@ -1,0 +1,23 @@
+<p-accordion>
+    <p-accordionTab header="חיפוש מתקדם">
+      <!-- Advanced Search Form -->
+        <div class="advanced-search">
+            <label>תאריך פתיחה:</label>
+            <input 
+            type="date" 
+            [(ngModel)]="advancedFilters.startDate" 
+            (change)="emitAdvancedFilters()" 
+            />
+        
+            <label>סטטוס מותאם אישית:</label>
+            <input 
+            type="text" 
+            placeholder="הכנס סטטוס" 
+            [(ngModel)]="advancedFilters.customStatus" 
+            (input)="emitAdvancedFilters()" 
+            />
+        </div>
+  
+    </p-accordionTab>
+  </p-accordion>
+  

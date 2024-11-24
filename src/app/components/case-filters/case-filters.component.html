@@ -1,0 +1,19 @@
+<div class="filters-container">
+    <div class="search-input">
+      <i class="pi pi-search"></i>
+      <input 
+        type="text" 
+        placeholder="חיפוש לפי מספר תיק או שם צד" 
+        [(ngModel)]="searchQuery" 
+        (input)="onSearchInput()" 
+      />
+    </div>
+  
+    <div class="filter-buttons">
+      <button pButton label="הכל" (click)="changeFilter(caseStatus.All)"></button>
+      <button pButton label="תיקים שלי" (click)="toggleMyCases()"></button>
+      <button pButton label="פעילים" (click)="changeFilter(caseStatus.Open)"></button>
+      <button pButton label="סגורים" (click)="changeFilter(caseStatus.Closed)"></button>
+    </div>
+  </div>
+  

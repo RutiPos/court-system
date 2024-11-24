@@ -1,0 +1,14 @@
+<p-card>
+    <div class="filters-container">
+      <!-- Case Filters -->
+      <app-case-filters 
+        (filterChanged)="onFilterChanged($event)">
+      </app-case-filters>
+  
+      <!-- Advanced Search -->
+      <app-advanced-search 
+        (advancedFilterChanged)="onAdvancedFilterChanged($event)">
+      </app-advanced-search>
+    </div>
+  </p-card>
+  

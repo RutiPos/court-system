@@ -1,0 +1,16 @@
+<p-card>
+  <!-- Filter Container (Search and Status Filters) -->
+  <app-filter-container (filterChanged)="onFilterChanged($event)" (advancedFilterChanged)="onAdvancedFilterChanged($event)">
+  </app-filter-container>
+</p-card>
+
+<!-- Pass sorting functions to case-results -->
+<app-case-results 
+  *ngIf="filteredCases$ | async as filteredCases; else noResults" 
+  [cases]="filteredCases" 
+  (sortingChanged)="onSortChanged($event)">
+</app-case-results>
+
+<ng-template #noResults>
+  <p>אין תוצאות מתאימות</p>
+</ng-template>

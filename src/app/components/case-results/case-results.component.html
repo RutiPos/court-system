@@ -1,0 +1,18 @@
+<div>
+  <label>מספר תוצאות: {{ cases.length }}</label>
+  <div>
+    <select (change)="sortCases($event)">
+      <option value="number">מספר תיק</option>
+      <option value="created">תאריך פתיחה</option>
+    </select>
+    <button (click)="toggleSortOrder()">סדר {{ sortOrder === 'asc' ? 'עולה' : 'יורד' }}</button>
+  </div>
+</div>
+
+<!-- Scrollable container for case cards -->
+<div class="scrollable-cards-container">
+  <!-- Loop through cases and display each as a card -->
+  <ng-container *ngFor="let case of cases; trackBy: trackByCase">
+    <app-case-card [case]="case"></app-case-card> <!-- Use the new case card component -->
+  </ng-container>
+</div>

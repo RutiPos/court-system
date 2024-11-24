@@ -1,0 +1,61 @@
+.filters-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+  
+    .search-input {
+      position: relative;
+  
+      input {
+        width: 100%;
+        padding: 0.5rem 2rem 0.5rem 1rem; // Space for the icon
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+  
+      .pi-search {
+        position: absolute;
+        left: 0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1rem;
+        color: #888;
+      }
+    }
+  
+    .filter-buttons {
+      display: flex;
+      gap: 1rem;
+  
+      button {
+        flex: 1; // Equal width for all buttons
+      }
+  
+      .active {
+        background-color: #007ad9;
+        color: white;
+      }
+    }
+  
+    .advanced-filters {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+  
+      label {
+        margin-bottom: 0.25rem;
+      }
+    }
+  }
+
+  .search-input {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between the search icon and input */
+  }
+  
+  .filter-buttons {
+    display: flex;
+    gap: 10px; /* Space between filter buttons */
+  }
+    

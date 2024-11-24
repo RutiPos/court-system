@@ -1,0 +1,24 @@
+<div class="case-card">
+    <!-- Card Header -->
+    <div class="card-header">
+      <div class="case-number">מספר תיק: {{ case.number }}</div>
+      <div class="case-kind">סוג תיק: {{ case.caseKind }}</div>
+      <div class="osek">הוסך: {{ case.osek }}</div>
+    </div>
+  
+    <!-- Card Body -->
+    <div class="card-body">
+      <div class="eligibility-period">תקופת זכאות: {{ case.eligibilityPeriod }}</div>
+      <div class="created-date">תאריך פתיחת תיק: {{ case.created | date: 'dd/MM/yyyy' }}</div>
+      <div class="next-discussion">דיון קרוב: {{ case.nextDiscussionDate }}</div>
+      <div class="appeal-filer">מגיש ערר: {{ case.appealFiler }}</div>
+      <div class="chairperson">יו"ר ועדה: {{ case.chairperson }}</div>
+      <div class="public-commissioner">נציב ציבור: {{ case.publicCommissioner }}</div>
+    </div>
+  
+    <!-- Card Footer -->
+    <div class="card-footer">
+      <div class="case-status">סטטוס: {{ case.status }}</div>
+    </div>
+  </div>
+  

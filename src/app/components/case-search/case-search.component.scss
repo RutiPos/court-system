@@ -1,0 +1,47 @@
+.case-filter-container {
+    padding: 20px;
+  }
+  
+  .filter-section, .sort-section {
+    margin-bottom: 20px;
+  }
+  
+  .button-group button {
+    margin-right: 10px;
+  }
+  
+  .button-group .active {
+    font-weight: bold;
+  }
+  
+  .case-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .case-card {
+    border: 1px solid #ccc;
+    padding: 15px;
+    width: 200px;
+    text-align: center;
+  }
+
+  .filters-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px; /* Optional, adjust the space between the elements */
+  }
+  
+  app-case-filters, app-advanced-search {
+    flex: 1;  /* This makes each component take up equal space, you can adjust this as needed */
+  }
+
+  app-case-filters {
+    border: 1px solid black;
+    border-radius: 10rem;
+  }
+  
+  /* Optionally add some margins or padding to style the layout further */
+  
